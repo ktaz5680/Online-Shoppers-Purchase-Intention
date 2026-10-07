@@ -1,29 +1,46 @@
 import pandas as pd
 
-# Load the dataset
-df = pd.read_csv("data/online_shoppers_intention.csv")
+# Import data
+eshop = pd.read_csv("data/online_shoppers_intention.csv")
 
-# Display basic dataset information
-print("Dataset Shape:")
-print(df.shape)
+# Basic dataset information
+print("Dataset shape:", eshop.shape)
 
-print("\nColumn Names:")
-print(df.columns.tolist())
+print("\nColumn names:")
+print(eshop.columns.tolist())
 
-print("\nData Types:")
-print(df.dtypes)
+print("\nData types:")
+print(eshop.dtypes)
 
-print("\nMissing Values:")
-print(df.isnull().sum())
+print("\nFirst five rows:")
+print(eshop.head())
 
-print("\nDuplicate Rows:")
-print(df.duplicated().sum())
+# Missing values
+missing_values = eshop.isnull().sum()
 
-print("\nRevenue Distribution:")
-print(df["Revenue"].value_counts())
+print("\nMissing values by variable:")
+print(missing_values)
 
-print("\nRevenue Percentage:")
-print(df["Revenue"].value_counts(normalize=True) * 100)
+print("\nTotal missing values:", missing_values.sum())
 
-print("\nSummary Statistics:")
-print(df.describe())
+# Identical / duplicate rows
+duplicate_count = eshop.duplicated().sum()
+
+print("\nNumber of identical rows:", duplicate_count)
+print(
+    "Percentage of dataset:",
+    round((duplicate_count / len(eshop)) * 100, 2),
+    "%"
+)
+
+# Revenue target distribution
+revenue_counts = eshop["Revenue"].value_counts()
+revenue_percent = eshop["Revenue"].value_counts(normalize=True) * 100
+
+target_summary = pd.DataFrame({
+    "Count": revenue_counts,
+    "Percentage": revenue_percent
+})
+
+print("\nRevenue target distribution:")
+print(target_summary)
